@@ -559,6 +559,36 @@ body::before {
 
 .waitlist-form input::placeholder { color: var(--charcoal-muted); font-weight: 300; }
 
+.phone-row { display: flex; gap: 8px; }
+
+.country-select {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  padding: 14px 8px 14px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--linen);
+  color: var(--charcoal);
+  outline: none;
+  cursor: pointer;
+  min-width: 95px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238A8078'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 26px;
+}
+
+.country-select:focus {
+  border-color: var(--rose);
+  box-shadow: 0 0 0 3px rgba(196,149,106,0.12);
+  background-color: var(--card-white);
+}
+
+.phone-input { flex: 1; min-width: 0; }
+
 .waitlist-submit {
   font-family: 'Inter', sans-serif;
   font-size: 0.88rem;
@@ -828,6 +858,17 @@ body::before {
   </div>
 </div>
 
+<!-- BUILT BY KELLY -->
+<div style="padding:48px 60px;display:flex;align-items:center;gap:40px;max-width:900px;margin:0 auto;flex-wrap:wrap;justify-content:center;">
+  <img src="kelly-teaching.jpg" alt="Kelly Wotherspoon teaching AI to clinic owners" style="width:280px;height:280px;object-fit:cover;object-position:center top;border-radius:16px;box-shadow:0 4px 16px rgba(59,50,41,0.1),0 16px 48px rgba(59,50,41,0.08);flex-shrink:0;">
+  <div style="max-width:420px;">
+    <p style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.2em;color:var(--rose);font-weight:600;margin-bottom:8px;">Your Claude Specialist</p>
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:var(--charcoal);margin-bottom:10px;line-height:1.2;">Built by Kelly Wotherspoon</h2>
+    <p style="font-size:0.92rem;color:var(--charcoal-soft);font-weight:300;line-height:1.7;margin-bottom:12px;">Every skill in this library runs on Claude - the most capable AI in the world. Kelly builds AI operating systems for clinic owners who are tired of doing everything themselves.</p>
+    <p style="font-size:0.82rem;color:var(--charcoal-muted);font-weight:300;line-height:1.6;font-style:italic;">Not templates. Not chatbots. Real systems that handle real work - built once, yours forever.</p>
+  </div>
+</div>
+
 <!-- COMING SOON + LEAD CAPTURE -->
 <div class="coming-soon-banner">
   <div class="coming-soon-inner">
@@ -841,7 +882,23 @@ body::before {
       <form class="waitlist-form" id="waitlistForm">
         <input type="text" name="name" placeholder="Your name" required>
         <input type="email" name="email" placeholder="Your email" required>
-        <input type="tel" name="phone" placeholder="Your phone (e.g. 0412 345 678)">
+        <div class="phone-row">
+          <select name="country_code" class="country-select">
+            <option value="+61">AU +61</option>
+            <option value="+64">NZ +64</option>
+            <option value="+1">US +1</option>
+            <option value="+1">CA +1</option>
+            <option value="+44">UK +44</option>
+            <option value="+353">IE +353</option>
+            <option value="+91">IN +91</option>
+            <option value="+65">SG +65</option>
+            <option value="+971">AE +971</option>
+            <option value="+27">ZA +27</option>
+            <option value="+49">DE +49</option>
+            <option value="+33">FR +33</option>
+          </select>
+          <input type="tel" name="phone" placeholder="Phone number" class="phone-input">
+        </div>
         <input type="hidden" name="_subject" value="Skill Library Waitlist - New Signup">
         <input type="hidden" name="_template" value="table">
         <input type="hidden" name="_captcha" value="false">
@@ -1405,7 +1462,15 @@ document.getElementById('waitlistForm').addEventListener('submit', async functio
   e.preventDefault();
   const form = e.target;
   const btn = form.querySelector('.waitlist-submit');
-  const data = Object.fromEntries(new FormData(form));
+  const formData = Object.fromEntries(new FormData(form));
+  const data = {
+    name: formData.name,
+    email: formData.email,
+    phone: formData.phone ? formData.country_code + ' ' + formData.phone : '',
+    _subject: formData._subject,
+    _template: formData._template,
+    _captcha: formData._captcha
+  };
 
   btn.disabled = true;
   btn.textContent = 'Sending...';
