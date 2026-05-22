@@ -946,9 +946,9 @@ body::before {
 <!-- TIER FILTER -->
 <div class="tier-bar">
   <button class="tier-pill active" data-filter="all">All Skills <span class="pill-tag">(72)</span></button>
-  <button class="tier-pill" data-filter="free">Free <span class="pill-tag">$0</span></button>
-  <button class="tier-pill" data-filter="pro">Pro <span class="pill-tag">$5K</span></button>
-  <button class="tier-pill" data-filter="elite">Elite <span class="pill-tag">$10K</span></button>
+  <button class="tier-pill" data-filter="free">Free <span class="pill-tag">(16)</span></button>
+  <button class="tier-pill" data-filter="pro">Pro <span class="pill-tag">(15)</span></button>
+  <button class="tier-pill" data-filter="elite">Elite <span class="pill-tag">(41)</span></button>
 </div>
 
 <!-- ============================================ -->
@@ -1454,7 +1454,6 @@ document.querySelectorAll('.tier-pill').forEach(btn => {
       d.style.display = filter === 'all' ? '' : 'none';
     });
   });
-});
 });
 
 // WAITLIST FORM SUBMISSION
