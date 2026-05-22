@@ -899,6 +899,7 @@ body::before {
           </select>
           <input type="tel" name="phone" placeholder="Phone number" class="phone-input">
         </div>
+        <input type="hidden" name="interested_tier" id="interestedTier" value="General">
         <input type="hidden" name="_subject" value="Skill Library Waitlist - New Signup">
         <input type="hidden" name="_template" value="table">
         <input type="hidden" name="_captcha" value="false">
@@ -1361,7 +1362,7 @@ body::before {
         <li><span class="dot sage-dot"></span>Video walkthroughs for every skill</li>
         <li><span class="dot sage-dot"></span>Skill files + install guides</li>
       </ul>
-      <a href="#waitlist" class="price-cta sage-btn" onclick="document.getElementById('waitlistForm').scrollIntoView({behavior:'smooth'});return false;">Join the Waitlist</a>
+      <a href="#waitlist" class="price-cta sage-btn" onclick="document.getElementById('interestedTier').value='Free';document.getElementById('waitlistForm').scrollIntoView({behavior:'smooth'});return false;">Join the Waitlist</a>
     </div>
 
     <div class="price-card featured">
@@ -1382,7 +1383,7 @@ body::before {
         <li><span class="dot rose-dot"></span>Guided onboarding call with Kelly</li>
         <li><span class="dot rose-dot"></span>Community access</li>
       </ul>
-      <a href="#waitlist" class="price-cta rose-btn" onclick="document.getElementById('waitlistForm').scrollIntoView({behavior:'smooth'});return false;">Join the Waitlist</a>
+      <a href="#waitlist" class="price-cta rose-btn" onclick="document.getElementById('interestedTier').value='Pro';document.getElementById('waitlistForm').scrollIntoView({behavior:'smooth'});return false;">Join the Waitlist</a>
     </div>
 
     <div class="price-card">
@@ -1403,7 +1404,7 @@ body::before {
         <li><span class="dot rust-dot"></span>Every install guide + video tutorial</li>
         <li><span class="dot rust-dot"></span>New skills added as AI evolves</li>
       </ul>
-      <a href="#waitlist" class="price-cta rust-btn" onclick="document.getElementById('waitlistForm').scrollIntoView({behavior:'smooth'});return false;">Join the Waitlist</a>
+      <a href="#waitlist" class="price-cta rust-btn" onclick="document.getElementById('interestedTier').value='Elite';document.getElementById('waitlistForm').scrollIntoView({behavior:'smooth'});return false;">Join the Waitlist</a>
     </div>
   </div>
 
@@ -1427,7 +1428,7 @@ body::before {
         <li><span class="dot rust-dot"></span>Private community</li>
         <li><span class="dot rust-dot"></span>Priority support</li>
       </ul>
-      <a href="#waitlist" class="price-cta rust-btn" style="margin-top:24px;" onclick="document.getElementById('waitlistForm').scrollIntoView({behavior:'smooth'});return false;">Join the Waitlist</a>
+      <a href="#waitlist" class="price-cta rust-btn" style="margin-top:24px;" onclick="document.getElementById('interestedTier').value='The Room';document.getElementById('waitlistForm').scrollIntoView({behavior:'smooth'});return false;">Join the Waitlist</a>
     </div>
   </div>
   </div>
@@ -1462,11 +1463,13 @@ document.getElementById('waitlistForm').addEventListener('submit', async functio
   const form = e.target;
   const btn = form.querySelector('.waitlist-submit');
   const formData = Object.fromEntries(new FormData(form));
+  const tier = formData.interested_tier || 'General';
   const data = {
     name: formData.name,
     email: formData.email,
     phone: formData.phone ? formData.country_code + ' ' + formData.phone : '',
-    _subject: formData._subject,
+    interested_tier: tier,
+    _subject: 'Skill Library Waitlist - ' + tier + ' - ' + formData.name,
     _template: formData._template,
     _captcha: formData._captcha
   };
