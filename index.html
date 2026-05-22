@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Skill Library - AI with Soul</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --linen: #F5F0EB;
+  --linen-dark: #EDE8E0;
+  --linen-deep: #E3DDD5;
+  --charcoal: #3B3229;
+  --charcoal-soft: #6B6054;
+  --charcoal-muted: #8A8078;
+  --rose: #C4956A;
+  --rose-light: #D4A87C;
+  --rose-glow: rgba(196,149,106,0.12);
+  --rust: #B7634B;
+  --rust-mid: #C4765E;
+  --rust-dark: #A8553D;
+  --sage: #7C8B6F;
+  --sage-dark: #6B7A5F;
+  --sage-glow: rgba(124,139,111,0.12);
+  --card-white: #FFFDF9;
+  --border: rgba(59,50,41,0.06);
+  --border-hover: rgba(59,50,41,0.12);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--linen);
+  color: var(--charcoal);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* LINEN TEXTURE OVERLAY - subtle, felt not seen */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.04;
+  background-image: url('textures/linen-warm-bg.png');
+  background-size: 400px 400px;
+  background-repeat: repeat;
+  mix-blend-mode: multiply;
+}
+
+/* WARM GRADIENT UNDERLAYS */
+.warm-glow-top {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 800px;
+  background: radial-gradient(ellipse at 20% 0%, rgba(196,149,106,0.12) 0%, transparent 50%),
+              radial-gradient(ellipse at 75% 10%, rgba(124,139,111,0.08) 0%, transparent 40%),
+              radial-gradient(ellipse at 50% 60%, rgba(196,149,106,0.06) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* HERO */
+.hero {
+  padding: 80px 60px 60px;
+  position: relative;
+  overflow: hidden;
+  background-image: url('textures/cream-bg.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(245,240,235,0.88);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero > * { position: relative; z-index: 1; }
+
+.hero-eyebrow {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: var(--rose);
+  font-weight: 600;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3.6rem;
+  font-weight: 600;
+  line-height: 1.1;
+  margin-bottom: 24px;
+  max-width: 700px;
+  position: relative;
+  z-index: 1;
+  color: var(--charcoal);
+}
+
+.hero h1 .accent { color: var(--rose); }
+
+.hero-sub {
+  font-size: 1.15rem;
+  font-weight: 300;
+  color: var(--charcoal-soft);
+  max-width: 580px;
+  margin-bottom: 40px;
+  line-height: 1.7;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 48px;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-stat-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: var(--rust);
+  line-height: 1;
+}
+
+.hero-stat-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--charcoal-muted);
+  margin-top: 4px;
+}
+
+/* SETUP GUIDE STRIP */
+.setup-strip {
+  background: var(--linen-dark);
+  padding: 48px 60px;
+  position: relative;
+  border-top: 1px solid rgba(59,50,41,0.04);
+  border-bottom: 1px solid rgba(59,50,41,0.04);
+}
+
+.setup-strip::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url('textures/cream-embossed.png');
+  background-size: 600px 600px;
+  background-position: center;
+  opacity: 0.03;
+  pointer-events: none;
+}
+
+.setup-strip::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(237,232,224,0.92);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.setup-inner { z-index: 1; position: relative; }
+
+.setup-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+}
+
+.setup-strip h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--charcoal);
+  margin-bottom: 8px;
+}
+
+.setup-strip .sub {
+  font-size: 1rem;
+  color: var(--charcoal-soft);
+  font-weight: 300;
+  margin-bottom: 32px;
+}
+
+.setup-steps {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.setup-step {
+  background: var(--card-white);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 24px 20px;
+  width: 200px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(59,50,41,0.04), 0 8px 24px rgba(59,50,41,0.03);
+}
+
+.step-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--rose);
+  margin-bottom: 6px;
+}
+
+.step-title {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--charcoal);
+  margin-bottom: 4px;
+}
+
+.step-desc {
+  font-size: 0.75rem;
+  color: var(--charcoal-muted);
+  line-height: 1.4;
+}
+
+/* TIER FILTER */
+.tier-bar {
+  display: flex;
+  gap: 12px;
+  padding: 40px 60px 32px;
+  flex-wrap: wrap;
+}
+
+.tier-pill {
+  padding: 11px 24px;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--charcoal-muted);
+  cursor: pointer;
+  transition: all 0.3s;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tier-pill:hover { border-color: var(--border-hover); color: var(--charcoal); }
+.tier-pill.active { color: var(--charcoal); font-weight: 600; }
+.tier-pill.active[data-filter="all"] { border-color: var(--charcoal); background: rgba(59,50,41,0.04); }
+.tier-pill.active[data-filter="free"] { border-color: var(--sage); background: var(--sage-glow); color: var(--sage-dark); }
+.tier-pill.active[data-filter="pro"] { border-color: var(--rose); background: var(--rose-glow); color: var(--rose); }
+.tier-pill.active[data-filter="elite"] { border-color: var(--rust); background: rgba(183,99,75,0.08); color: var(--rust); }
+
+.tier-pill .pill-tag {
+  font-size: 0.68rem;
+  opacity: 0.6;
+}
+
+/* SKILL ROW */
+.skill-row {
+  margin-bottom: 48px;
+  position: relative;
+}
+
+.row-header {
+  padding: 0 60px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.row-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.45rem;
+  font-weight: 600;
+  color: var(--charcoal);
+}
+
+.row-count {
+  font-size: 0.72rem;
+  color: var(--charcoal-muted);
+}
+
+.row-scroll {
+  display: flex;
+  gap: 16px;
+  padding: 4px 60px 8px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  scroll-snap-type: x proximity;
+}
+.row-scroll::-webkit-scrollbar { display: none; }
+
+/* SKILL CARD */
+.skill-card {
+  min-width: 300px;
+  max-width: 300px;
+  background: var(--card-white);
+  background-image:
+    radial-gradient(ellipse at 80% 20%, rgba(196,149,106,0.04) 0%, transparent 60%),
+    radial-gradient(ellipse at 20% 80%, rgba(124,139,111,0.03) 0%, transparent 60%);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: all 0.3s;
+  cursor: pointer;
+  scroll-snap-align: start;
+  flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(59,50,41,0.06), 0 4px 12px rgba(59,50,41,0.04), 0 12px 32px rgba(59,50,41,0.03);
+}
+
+.skill-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 2px 6px rgba(59,50,41,0.08), 0 8px 20px rgba(59,50,41,0.06), 0 20px 60px rgba(59,50,41,0.08);
+  border-color: var(--border-hover);
+}
+
+.card-content { padding: 22px 20px 0; }
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.card-badge {
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 3px 10px;
+  border-radius: 100px;
+  font-weight: 700;
+}
+
+.card-badge.free { background: var(--sage-glow); color: var(--sage-dark); border: 1px solid rgba(124,139,111,0.2); }
+.card-badge.pro { background: var(--rose-glow); color: var(--rose); border: 1px solid rgba(196,149,106,0.2); }
+.card-badge.elite { background: rgba(183,99,75,0.08); color: var(--rust); border: 1px solid rgba(183,99,75,0.15); }
+
+.card-category {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--charcoal-muted);
+}
+
+.card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--charcoal);
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+
+.card-desc {
+  font-size: 0.82rem;
+  color: var(--charcoal-soft);
+  line-height: 1.55;
+}
+
+/* VIDEO PREVIEW - visible at ALL tiers */
+.card-video {
+  margin: 16px -20px 0;
+  padding: 16px 20px;
+  background: var(--linen);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.card-video:hover { background: var(--linen-dark); }
+
+.video-play {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  flex-shrink: 0;
+}
+
+.card-video.free .video-play { background: var(--sage-glow); color: var(--sage); }
+.card-video.pro .video-play { background: var(--rose-glow); color: var(--rose); }
+.card-video.elite .video-play { background: rgba(183,99,75,0.08); color: var(--rust); }
+
+.video-label {
+  font-size: 0.75rem;
+  color: var(--charcoal-muted);
+}
+
+.video-label strong {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--charcoal-soft);
+  font-weight: 500;
+}
+
+/* CARD FOOTER - download/lock */
+.card-footer {
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  border-top: 1px solid var(--border);
+}
+
+.card-footer.free { color: var(--sage-dark); }
+.card-footer.pro { color: var(--rose); }
+.card-footer.elite { color: var(--rust); }
+
+.download-btn {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 100px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.download-btn.free-btn { background: var(--sage); color: white; }
+.download-btn.free-btn:hover { background: var(--sage-dark); }
+.download-btn.locked { background: var(--linen-dark); color: var(--charcoal-muted); cursor: default; }
+
+/* TEXTURED SECTION DIVIDER */
+.section-divider {
+  height: 3px;
+  margin: 16px 60px 40px;
+  background: linear-gradient(90deg, transparent, var(--linen-deep), transparent);
+  border: none;
+}
+
+/* PRICING */
+.pricing-section {
+  padding: 80px 60px;
+  background: var(--linen-dark);
+  position: relative;
+}
+
+.pricing-section::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url('textures/cream-bg.png');
+  background-size: 800px 800px;
+  background-position: center top;
+  opacity: 0.08;
+  pointer-events: none;
+}
+
+.pricing-section::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(237,232,224,0.82);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.pricing-header, .pricing-grid { position: relative; z-index: 1; }
+
+.pricing-header {
+  text-align: center;
+  margin-bottom: 48px;
+  position: relative;
+}
+
+.pricing-header h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.6rem;
+  font-weight: 600;
+  color: var(--charcoal);
+  margin-bottom: 8px;
+}
+
+.pricing-header p {
+  font-size: 1.05rem;
+  color: var(--charcoal-soft);
+  font-weight: 300;
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.price-card {
+  background: var(--card-white);
+  background-image:
+    radial-gradient(ellipse at 70% 10%, rgba(196,149,106,0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 30% 90%, rgba(124,139,111,0.04) 0%, transparent 50%);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 36px 28px;
+  box-shadow: 0 1px 3px rgba(59,50,41,0.06), 0 4px 16px rgba(59,50,41,0.04), 0 16px 48px rgba(59,50,41,0.05);
+  transition: all 0.3s;
+}
+
+.price-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(59,50,41,0.06), 0 20px 60px rgba(59,50,41,0.08);
+}
+
+.price-card.featured {
+  border: 2px solid var(--rose);
+  box-shadow: 0 4px 12px rgba(196,149,106,0.08), 0 16px 48px rgba(196,149,106,0.12);
+}
+
+.price-card .card-badge { margin-bottom: 20px; display: inline-block; }
+
+.price-card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--charcoal);
+  margin-bottom: 4px;
+}
+
+.price-amount {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.price-amount.sage { color: var(--sage); }
+.price-amount.rose { color: var(--rose); }
+.price-amount.rust { color: var(--rust); }
+.price-amount span { font-size: 0.85rem; font-weight: 400; color: var(--charcoal-muted); }
+
+.price-note {
+  font-size: 0.78rem;
+  color: var(--charcoal-muted);
+  font-style: italic;
+  margin-bottom: 20px;
+}
+
+.price-desc {
+  font-size: 0.88rem;
+  color: var(--charcoal-soft);
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.price-list {
+  list-style: none;
+  margin-bottom: 28px;
+}
+
+.price-list li {
+  font-size: 0.82rem;
+  color: var(--charcoal-soft);
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.price-list .dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dot.sage-dot { background: var(--sage); }
+.dot.rose-dot { background: var(--rose); }
+.dot.rust-dot { background: var(--rust); }
+
+.price-cta {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  border-radius: 100px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  transition: all 0.2s;
+}
+
+.price-cta.sage-btn { background: linear-gradient(135deg, var(--sage), var(--sage-dark)); color: white; }
+.price-cta.sage-btn:hover { box-shadow: 0 8px 24px var(--sage-glow); transform: translateY(-1px); }
+.price-cta.rose-btn { background: linear-gradient(135deg, var(--rose), var(--rose-light)); color: white; }
+.price-cta.rose-btn:hover { box-shadow: 0 8px 24px var(--rose-glow); transform: translateY(-1px); }
+.price-cta.rust-btn { background: linear-gradient(135deg, var(--rust), var(--rust-mid), var(--rust-dark)); color: white; }
+.price-cta.rust-btn:hover { box-shadow: 0 8px 24px rgba(183,99,75,0.2); transform: translateY(-1px); }
+
+/* FOOTER */
+.footer {
+  padding: 48px 60px;
+  text-align: center;
+}
+
+.footer .brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--rose);
+  margin-bottom: 6px;
+}
+
+.footer p { font-size: 0.78rem; color: var(--charcoal-muted); }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .hero { padding: 60px 24px 40px; }
+  .hero h1 { font-size: 2.4rem; }
+  .tier-bar, .row-header { padding-left: 24px; padding-right: 24px; }
+  .row-scroll { padding-left: 24px; padding-right: 24px; }
+  .pricing-section { padding: 60px 24px; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .setup-strip { padding: 40px 24px; }
+  .setup-steps { gap: 12px; }
+  .setup-step { width: 160px; }
+  .section-divider { margin-left: 24px; margin-right: 24px; }
+}
+
+@media (max-width: 600px) {
+  .hero h1 { font-size: 2rem; }
+  .hero-stats { gap: 24px; flex-wrap: wrap; }
+  .skill-card { min-width: 270px; max-width: 270px; }
+}
+</style>
+</head>
+<body>
+
+<div class="warm-glow-top"></div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">AI with Soul</div>
+  <h1>72 AI Skills.<br><span class="accent">Built for Clinics.</span><br>16 Are Yours Free.</h1>
+  <p class="hero-sub">Every skill runs a complete workflow inside your clinic. Not prompts. Not templates. Real automation that gives you hours back every week. Scroll through, see what's useful, and start with 16 for free.</p>
+  <div class="hero-stats">
+    <div><div class="hero-stat-num">16</div><div class="hero-stat-label">Free Skills</div></div>
+    <div><div class="hero-stat-num">15</div><div class="hero-stat-label">Pro Skills</div></div>
+    <div><div class="hero-stat-num">41</div><div class="hero-stat-label">Elite Skills</div></div>
+    <div><div class="hero-stat-num">10+</div><div class="hero-stat-label">Hours Back Weekly</div></div>
+  </div>
+</div>
+
+<!-- SETUP GUIDE -->
+<div class="setup-strip">
+  <div class="setup-inner">
+    <h2>Ready in 15 Minutes</h2>
+    <p class="sub">Your free skills come with a guided setup. No tech knowledge needed.</p>
+    <div class="setup-steps">
+      <div class="setup-step">
+        <div class="step-num">1</div>
+        <div class="step-title">Connect Your Email</div>
+        <div class="step-desc">Link your Gmail so your AI can draft and send for you.</div>
+      </div>
+      <div class="setup-step">
+        <div class="step-num">2</div>
+        <div class="step-title">Connect Your Calendar</div>
+        <div class="step-desc">Link Google Calendar so bookings manage themselves.</div>
+      </div>
+      <div class="setup-step">
+        <div class="step-num">3</div>
+        <div class="step-title">Set Your Brand</div>
+        <div class="step-desc">Answer a few questions about your colours, voice, and style.</div>
+      </div>
+      <div class="setup-step">
+        <div class="step-num">4</div>
+        <div class="step-title">Start Using Skills</div>
+        <div class="step-desc">Your first skill is ready. Try it. You'll see.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TIER FILTER -->
+<div class="tier-bar">
+  <button class="tier-pill active" data-filter="all">All Skills <span class="pill-tag">(72)</span></button>
+  <button class="tier-pill" data-filter="free">Free <span class="pill-tag">$0</span></button>
+  <button class="tier-pill" data-filter="pro">Pro <span class="pill-tag">$5K</span></button>
+  <button class="tier-pill" data-filter="elite">Elite <span class="pill-tag">$10K</span></button>
+</div>
+
+<!-- ============================================ -->
+<!-- FREE: SET UP YOUR BUSINESS BRAIN             -->
+<!-- ============================================ -->
+<div class="skill-row" data-row-tier="free">
+  <div class="row-header">
+    <span class="row-title">Set Up Your Business Brain</span>
+    <span class="row-count">4 skills - free</span>
+  </div>
+  <div class="row-scroll">
+
+    <div class="skill-card" data-tier="free">
+      <div class="card-content">
+        <div class="card-top"><span class="card-badge free">Free</span><span class="card-category">Setup</span></div>
+        <div class="card-title">Your 15-Minute Setup</div>
+        <div class="card-desc">Connect your email, calendar, and design tools. Answer a few questions about your brand. Everything after this just works - personalised to you.</div>
+      </div>
+      <div class="card-video free"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Setting up in 15 minutes</strong>2 min walkthrough</div></div>
+      <div class="card-footer free"><span>&#10003; Install now</span><button class="download-btn free-btn">Get This Skill</button></div>
+    </div>
+
+    <div class="skill-card" data-tier="free">
+      <div class="card-content">
+        <div class="card-top"><span class="card-badge free">Free</span><span class="card-category">Brand</span></div>
+        <div class="card-title">Capture Your Voice</div>
+        <div class="card-desc">We capture how you actually talk - your warmth, your phrases, the words you'd never use. Every email and post after this sounds like you, not a robot.</div>
+      </div>
+      <div class="card-video free"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Building your voice profile</strong>3 min demo</div></div>
+      <div class="card-footer free"><span>&#10003; Install now</span><button class="download-btn free-btn">Get This Skill</button></div>
+    </div>
+
+    <div class="skill-card" data-tier="free">
+      <div class="card-content">
+        <div class="card-top"><span class="card-badge free">Free</span><span class="card-category">Email</span></div>
+        <div class="card-title">Your Inbox, Handled</div>
+        <div class="card-desc">AI reads your emails, drafts replies in your voice, and waits for you to approve. Hit send. That's it. Saves 60-90 minutes every day.</div>
+      </div>
+      <div class="card-video free"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Email agent in action</strong>2 min demo</div></div>
+      <div class="card-footer free"><span>&#10003; Install now</span><button class="download-btn free-btn">Get This Skill</button></div>
+    </div>
+
+    <div class="skill-card" data-tier="free">
+      <div class="card-content">
+        <div class="card-top"><span class="card-badge free">Free</span><span class="card-category">Calendar</span></div>
+        <div class="card-title">No More Double-Bookings</div>
+        <div class="card-desc">No more "when are you free?" back-and-forth. Your calendar manages itself - bookings, reminders, conflicts, optimal scheduling.</div>
+      </div>
+      <div class="card-video free"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Calendar agent demo</strong>2 min walkthrough</div></div>
+      <div class="card-footer free"><span>&#10003; Install now</span><button class="download-btn free-btn">Get This Skill</button></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FREE: CREATE CONTENT THAT CONVERTS -->
+<div class="skill-row" data-row-tier="free">
+  <div class="row-header">
+    <span class="row-title">Create Content That Converts</span>
+    <span class="row-count">4 skills - free</span>
+  </div>
+  <div class="row-scroll">
+
+    <div class="skill-card" data-tier="free">
+      <div class="card-content">
+        <div class="card-top"><span class="card-badge free">Free</span><span class="card-category">Design</span></div>
+        <div class="card-title">Branded Carousels in Seconds</div>
+        <div class="card-desc">Give it a topic - "5 things to know before your first facial" - and get a branded carousel ready to post. No more 2 hours in Canva for 5 slides.</div>
+      </div>
+      <div class="card-video free"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Carousel creation demo</strong>2 min</div></div>
+      <div class="card-footer free"><span>&#10003; Install now</span><button class="download-btn free-btn">Get This Skill</button></div>
+    </div>
+
+    <div class="skill-card" data-tier="free">
+      <div class="card-content">
+        <div class="card-top"><span class="card-badge free">Free</span><span class="card-category">Content</span></div>
+        <div class="card-title">Hooks That Stop the Scroll</div>
+        <div class="card-desc">The first line decides if they read or scroll past. Get 5 tested hooks scored on what makes people stop. Video, text, carousel - all covered.</div>
+      </div>
+      <div class="card-video free"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Hook formula explained</strong>3 min</div></div>
+      <div class="card-footer free"><span>&#10003; Install now</span><button class="download-btn free-btn">Get This Skill</button></div>
+    </div>
+
+    <div class="skill-card" data-tier="free">
+      <div class="card-content">
+        <div class="card-top"><span class="card-badge free">Free</span><span class="card-category">Quality</span></div>
+        <div class="card-title">Make It Sound Human</div>
+        <div class="card-desc">If it reads like AI wrote it, your clients notice. This scans everything you create and strips out the generic AI language before you publish. It catches and rewrites things like:</div>
+        <div style="margin-top:10px;font-size:0.76rem;color:var(--charcoal-muted);line-height:1.7;">
+          <span style="text-decoration:line-through;opacity:0.5;">In today's fast-paced world...</span><br>
+          <span style="text-decoration:line-through;opacity:0.5;">It's important to note that...</span><br>
+          <span style="text-decoration:line-through;opacity:0.5;">This comprehensive approach ensures...</span><br>
+          <span style="text-decoration:line-through;opacity:0.5;">Unlock your full potential...</span><br>
+          <span style="text-decoration:line-through;opacity:0.5;">Dive deep into the world of...</span><br>
+          <span style="text-decoration:line-through;opacity:0.5;">At the end of the day...</span><br>
+          <span style="font-weight:500;color:var(--sage);font-style:italic;margin-top:4px;display:inline-block;">...replaced with words that actually sound like you.</span>
+        </div>
+      </div>
+      <div class="card-video free"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: AI detection in action</strong>2 min</div></div>
+      <div class="card-footer free"><span>&#10003; Install now</span><button class="download-btn free-btn">Get This Skill</button></div>
+    </div>
+
+    <div class="skill-card" data-tier="free">
+      <div class="card-content">
+        <div class="card-top"><span class="card-badge free">Free</span><span class="card-category">Research</span></div>
+        <div class="card-title">Know What's Working Before You Create</div>
+        <div class="card-desc">See what content actually performs in your niche. Trending formats, posting patterns, what competitors do that gets engagement. Stop guessing.</div>
+      </div>
+      <div class="card-video free"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Competitor research demo</strong>3 min</div></div>
+      <div class="card-footer free"><span>&#10003; Install now</span><button class="download-btn free-btn">Get This Skill</button></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FREE: GET FOUND ONLINE -->
+<div class="skill-row" data-row-tier="free">
+  <div class="row-header">
+    <span class="row-title">Get Found Online</span>
+    <span class="row-count">4 skills - free</span>
+  </div>
+  <div class="row-scroll">
+
+    <div class="skill-card" data-tier="free">
+      <div class="card-content">
+        <div class="card-top"><span class="card-badge free">Free</span><span class="card-category">SEO</span></div>
+        <div class="card-title">Know What Your Clients Search For</div>
+        <div class="card-desc">The exact words your ideal clients type into Google when they're looking for someone like you. Build your website around what they're actually searching.</div>
+      </div>
+      <div class="card-video free"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Finding your keywords</strong>3 min</div></div>
+      <div class="card-footer free"><span>&#10003; Install now</span><button class="download-btn free-btn">Get This Skill</button></div>
+    </div>
+
+    <div class="skill-card" data-tier="free">
+      <div class="card-content">
+        <div class="card-top"><span class="card-badge free">Free</span><span class="card-category">SEO</span></div>
+        <div class="card-title">Find the Quick Wins on Your Website</div>
+        <div class="card-desc">Your website probably has 10+ easy fixes hiding in plain sight. This finds every single one and tells you which to tackle first. Most take 5 minutes.</div>
+      </div>
+      <div class="card-video free"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Website audit walkthrough</strong>3 min</div></div>
+      <div class="card-footer free"><span>&#10003; Install now</span><button class="download-btn free-btn">Get This Skill</button></div>
+    </div>
+
+    <div class="skill-card" data-tier="free">
+      <div class="card-content">
+        <div class="card-top"><span class="card-badge free">Free</span><span class="card-category">AI Search</span></div>
+        <div class="card-title">Get Recommended by ChatGPT</div>
+        <div class="card-desc">When someone asks ChatGPT "best clinic near me" - will it recommend you? This makes sure it does. GEO is the new SEO and most clinics haven't started.</div>
+      </div>
+      <div class="card-video free"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: AI search explained</strong>2 min</div></div>
+      <div class="card-footer free"><span>&#10003; Install now</span><button class="download-btn free-btn">Get This Skill</button></div>
+    </div>
+
+    <div class="skill-card" data-tier="free">
+      <div class="card-content">
+        <div class="card-top"><span class="card-badge free">Free</span><span class="card-category">Design</span></div>
+        <div class="card-title">Pages That Look Professionally Designed</div>
+        <div class="card-desc">Need a service page, event page, or treatment showcase? Describe what you want and get a beautiful, mobile-friendly page you can use today.</div>
+      </div>
+      <div class="card-video free"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Page builder demo</strong>2 min</div></div>
+      <div class="card-footer free"><span>&#10003; Install now</span><button class="download-btn free-btn">Get This Skill</button></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FREE: CLOSE MORE CLIENTS -->
+<div class="skill-row" data-row-tier="free">
+  <div class="row-header">
+    <span class="row-title">Close More Clients</span>
+    <span class="row-count">4 skills - free</span>
+  </div>
+  <div class="row-scroll">
+
+    <div class="skill-card" data-tier="free">
+      <div class="card-content">
+        <div class="card-top"><span class="card-badge free">Free</span><span class="card-category">Sales</span></div>
+        <div class="card-title">Walk Into Every Call Prepared</div>
+        <div class="card-desc">Ten minutes before a discovery call, get a one-page brief on who you're about to speak to. Their business, their concerns, your best angle.</div>
+      </div>
+      <div class="card-video free"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Pre-call brief in action</strong>2 min</div></div>
+      <div class="card-footer free"><span>&#10003; Install now</span><button class="download-btn free-btn">Get This Skill</button></div>
+    </div>
+
+    <div class="skill-card" data-tier="free">
+      <div class="card-content">
+        <div class="card-top"><span class="card-badge free">Free</span><span class="card-category">Sales</span></div>
+        <div class="card-title">Proposals Out While They're Still Excited</div>
+        <div class="card-desc">Fresh off a great call? Get a branded proposal out in minutes, not hours. Scoped, priced, and formatted so well they think you have a team.</div>
+      </div>
+      <div class="card-video free"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Proposal generator demo</strong>2 min</div></div>
+      <div class="card-footer free"><span>&#10003; Install now</span><button class="download-btn free-btn">Get This Skill</button></div>
+    </div>
+
+    <div class="skill-card" data-tier="free">
+      <div class="card-content">
+        <div class="card-top"><span class="card-badge free">Free</span><span class="card-category">Marketing</span></div>
+        <div class="card-title">A Marketing Strategist in Your Back Pocket</div>
+        <div class="card-desc">Email copy, subject lines, sales scripts, outreach sequences - on demand. Like having a marketing genius on retainer, without the retainer.</div>
+      </div>
+      <div class="card-video free"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Marketing genius demo</strong>3 min</div></div>
+      <div class="card-footer free"><span>&#10003; Install now</span><button class="download-btn free-btn">Get This Skill</button></div>
+    </div>
+
+    <div class="skill-card" data-tier="free">
+      <div class="card-content">
+        <div class="card-top"><span class="card-badge free">Free</span><span class="card-category">Client</span></div>
+        <div class="card-title">The Perfect Follow-Up, Every Time</div>
+        <div class="card-desc">Just finished a treatment? The follow-up email is already drafted. Post-care instructions, thank yous, rebooking nudges - in your voice, ready to send.</div>
+      </div>
+      <div class="card-video free"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Client email demo</strong>2 min</div></div>
+      <div class="card-footer free"><span>&#10003; Install now</span><button class="download-btn free-btn">Get This Skill</button></div>
+    </div>
+
+  </div>
+</div>
+
+<hr class="section-divider">
+
+<!-- PRO: GROW ON AUTOPILOT -->
+<div class="skill-row" data-row-tier="pro">
+  <div class="row-header">
+    <span class="row-title">Grow on Autopilot</span>
+    <span class="row-count">5 skills - Pro</span>
+  </div>
+  <div class="row-scroll">
+
+    <div class="skill-card" data-tier="pro"><div class="card-content"><div class="card-top"><span class="card-badge pro">Pro</span><span class="card-category">Leads</span></div><div class="card-title">Warm Them Up While You Sleep</div><div class="card-desc">They enquired but didn't book. Now an email series runs in the background - sharing your expertise, building trust - until they're ready.</div></div><div class="card-video pro"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Nurture sequences explained</strong>3 min</div></div><div class="card-footer pro"><span>&#128274; Pro skill</span><button class="download-btn locked">Unlock</button></div></div>
+
+    <div class="skill-card" data-tier="pro"><div class="card-content"><div class="card-top"><span class="card-badge pro">Pro</span><span class="card-category">Content</span></div><div class="card-title">Post Once, Show Up Everywhere</div><div class="card-desc">You created one piece of content. Now it's seven platform-specific posts with branded images. Instagram, TikTok, Facebook, LinkedIn - all formatted correctly.</div></div><div class="card-video pro"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Content repurposer in action</strong>2 min</div></div><div class="card-footer pro"><span>&#128274; Pro skill</span><button class="download-btn locked">Unlock</button></div></div>
+
+    <div class="skill-card" data-tier="pro"><div class="card-content"><div class="card-top"><span class="card-badge pro">Pro</span><span class="card-category">Content</span></div><div class="card-title">Talk Into Your Phone, Get Posts Back</div><div class="card-desc">Record a voice note on the way to work. By the time you arrive, it's a LinkedIn post, an Instagram caption, and an email newsletter.</div></div><div class="card-video pro"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Voice to content demo</strong>2 min</div></div><div class="card-footer pro"><span>&#128274; Pro skill</span><button class="download-btn locked">Unlock</button></div></div>
+
+    <div class="skill-card" data-tier="pro"><div class="card-content"><div class="card-top"><span class="card-badge pro">Pro</span><span class="card-category">Marketing</span></div><div class="card-title">Know Why They Really Buy</div><div class="card-desc">Map the emotional journey your ideal client goes through before they book. Then write every piece of copy from that map. The difference between "nice website" and "I need to call them."</div></div><div class="card-video pro"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Resonance messaging demo</strong>3 min</div></div><div class="card-footer pro"><span>&#128274; Pro skill</span><button class="download-btn locked">Unlock</button></div></div>
+
+    <div class="skill-card" data-tier="pro"><div class="card-content"><div class="card-top"><span class="card-badge pro">Pro</span><span class="card-category">Marketing</span></div><div class="card-title">Landing Pages That Actually Convert</div><div class="card-desc">Launching a seasonal offer? Running a campaign? Get a high-converting page designed, built, and live. Not a template. Custom for your brand.</div></div><div class="card-video pro"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Landing page builder demo</strong>2 min</div></div><div class="card-footer pro"><span>&#128274; Pro skill</span><button class="download-btn locked">Unlock</button></div></div>
+
+  </div>
+</div>
+
+<!-- PRO: KNOW YOUR MARKET -->
+<div class="skill-row" data-row-tier="pro">
+  <div class="row-header">
+    <span class="row-title">Know Your Market</span>
+    <span class="row-count">4 skills - Pro</span>
+  </div>
+  <div class="row-scroll">
+
+    <div class="skill-card" data-tier="pro"><div class="card-content"><div class="card-top"><span class="card-badge pro">Pro</span><span class="card-category">Intelligence</span></div><div class="card-title">Know Everything Before You Speak</div><div class="card-desc">Before you talk to anyone, know their business model, their reviews, their pain points, their likelihood of buying. A full intelligence brief on every prospect.</div></div><div class="card-video pro"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Lead intelligence demo</strong>3 min</div></div><div class="card-footer pro"><span>&#128274; Pro skill</span><button class="download-btn locked">Unlock</button></div></div>
+
+    <div class="skill-card" data-tier="pro"><div class="card-content"><div class="card-top"><span class="card-badge pro">Pro</span><span class="card-category">Intelligence</span></div><div class="card-title">See Every Competitor's Ads</div><div class="card-desc">What's every clinic in your area running on Facebook and Instagram right now? Their creatives, their copy, their offers. All visible. No guessing what works.</div></div><div class="card-video pro"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Ad intelligence demo</strong>2 min</div></div><div class="card-footer pro"><span>&#128274; Pro skill</span><button class="download-btn locked">Unlock</button></div></div>
+
+    <div class="skill-card" data-tier="pro"><div class="card-content"><div class="card-top"><span class="card-badge pro">Pro</span><span class="card-category">Intelligence</span></div><div class="card-title">Your Entire Local Market, Mapped</div><div class="card-desc">Every clinic in your area - their services, Google ranking, review count, content strategy, pricing signals. Know exactly where you stand and where the gaps are.</div></div><div class="card-video pro"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Competitor analysis demo</strong>3 min</div></div><div class="card-footer pro"><span>&#128274; Pro skill</span><button class="download-btn locked">Unlock</button></div></div>
+
+    <div class="skill-card" data-tier="pro"><div class="card-content"><div class="card-top"><span class="card-badge pro">Pro</span><span class="card-category">Content</span></div><div class="card-title">LinkedIn That Gets You Noticed</div><div class="card-desc">Not fluff. Not motivational quotes. Posts and articles that position you as the expert and make the right people think "I need to talk to her."</div></div><div class="card-video pro"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: LinkedIn strategy demo</strong>3 min</div></div><div class="card-footer pro"><span>&#128274; Pro skill</span><button class="download-btn locked">Unlock</button></div></div>
+
+  </div>
+</div>
+
+<!-- PRO: STREAMLINE EVERYTHING -->
+<div class="skill-row" data-row-tier="pro">
+  <div class="row-header">
+    <span class="row-title">Streamline Everything</span>
+    <span class="row-count">6 skills - Pro</span>
+  </div>
+  <div class="row-scroll">
+
+    <div class="skill-card" data-tier="pro"><div class="card-content"><div class="card-top"><span class="card-badge pro">Pro</span><span class="card-category">Content</span></div><div class="card-title">One Video, One Week of Posts</div><div class="card-desc">Film a 5-minute video at your clinic. Get a full week of social posts from it. Transcribed, clipped, formatted for every platform. You film once.</div></div><div class="card-video pro"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Content pipeline demo</strong>3 min</div></div><div class="card-footer pro"><span>&#128274; Pro skill</span><button class="download-btn locked">Unlock</button></div></div>
+
+    <div class="skill-card" data-tier="pro"><div class="card-content"><div class="card-top"><span class="card-badge pro">Pro</span><span class="card-category">Operations</span></div><div class="card-title">Your Whole Business in One Screen</div><div class="card-desc">Who's booked today, who's overdue for follow-up, what's working, what needs attention. One dashboard instead of six different apps.</div></div><div class="card-video pro"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Command centre tour</strong>3 min</div></div><div class="card-footer pro"><span>&#128274; Pro skill</span><button class="download-btn locked">Unlock</button></div></div>
+
+    <div class="skill-card" data-tier="pro"><div class="card-content"><div class="card-top"><span class="card-badge pro">Pro</span><span class="card-category">Documents</span></div><div class="card-title">Contracts Without the Lawyer</div><div class="card-desc">Service agreements that look professional and protect you. Generated from a conversation. Ready for e-signature. Done in minutes.</div></div><div class="card-video pro"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Contract generator demo</strong>2 min</div></div><div class="card-footer pro"><span>&#128274; Pro skill</span><button class="download-btn locked">Unlock</button></div></div>
+
+    <div class="skill-card" data-tier="pro"><div class="card-content"><div class="card-top"><span class="card-badge pro">Pro</span><span class="card-category">Client</span></div><div class="card-title">Walk Into Every Session Ready</div><div class="card-desc">About to see a client? Here's everything - last conversation, what they committed to, what's changed, what to focus on today. Never scramble again.</div></div><div class="card-video pro"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Session prep demo</strong>2 min</div></div><div class="card-footer pro"><span>&#128274; Pro skill</span><button class="download-btn locked">Unlock</button></div></div>
+
+    <div class="skill-card" data-tier="pro"><div class="card-content"><div class="card-top"><span class="card-badge pro">Pro</span><span class="card-category">Strategy</span></div><div class="card-title">See Where Your Business is Leaking</div><div class="card-desc">A deep audit of how your business actually runs. Where time leaks, where leads drop off, where the easy wins are. The roadmap for what to fix first.</div></div><div class="card-video pro"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Business scan walkthrough</strong>3 min</div></div><div class="card-footer pro"><span>&#128274; Pro skill</span><button class="download-btn locked">Unlock</button></div></div>
+
+    <div class="skill-card" data-tier="pro"><div class="card-content"><div class="card-top"><span class="card-badge pro">Pro</span><span class="card-category">Outreach</span></div><div class="card-title">Partnership Letters That Get Replies</div><div class="card-desc">Reaching out to a brand, a partner, or a referral source? Get a personalised letter that shows genuine alignment - not a copy-paste pitch.</div></div><div class="card-video pro"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Sponsor letter demo</strong>2 min</div></div><div class="card-footer pro"><span>&#128274; Pro skill</span><button class="download-btn locked">Unlock</button></div></div>
+
+  </div>
+</div>
+
+<hr class="section-divider">
+
+<!-- ELITE: NEVER MISS ANOTHER CALL -->
+<div class="skill-row" data-row-tier="elite">
+  <div class="row-header">
+    <span class="row-title">Never Miss Another Call</span>
+    <span class="row-count">3 skills - Elite</span>
+  </div>
+  <div class="row-scroll">
+
+    <div class="skill-card" data-tier="elite"><div class="card-content"><div class="card-top"><span class="card-badge elite">Elite</span><span class="card-category">Phone</span></div><div class="card-title">An AI Receptionist Who Never Calls in Sick</div><div class="card-desc">She answers your phone. Books appointments. Handles enquiries. Calls back missed leads. Day, night, weekends, holidays. Sounds human because we built her that way.</div></div><div class="card-video elite"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Meet Aria - your AI receptionist</strong>3 min</div></div><div class="card-footer elite"><span>&#128274; Elite</span><button class="download-btn locked">Unlock</button></div></div>
+
+    <div class="skill-card" data-tier="elite"><div class="card-content"><div class="card-top"><span class="card-badge elite">Elite</span><span class="card-category">Phone</span></div><div class="card-title">She Knows Your Business Like You Do</div><div class="card-desc">Aria knows your services, your pricing, your booking system, your availability. She sounds like someone who works at your clinic because we configured her that way.</div></div><div class="card-video elite"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Custom voice agent setup</strong>3 min</div></div><div class="card-footer elite"><span>&#128274; Elite</span><button class="download-btn locked">Unlock</button></div></div>
+
+    <div class="skill-card" data-tier="elite"><div class="card-content"><div class="card-top"><span class="card-badge elite">Elite</span><span class="card-category">Phone</span></div><div class="card-title">Plugs Straight Into Your Booking System</div><div class="card-desc">Already using Timely? Aria checks real availability, books real appointments, confirms with real patients. No double-bookings. No manual entry.</div></div><div class="card-video elite"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Booking integration demo</strong>2 min</div></div><div class="card-footer elite"><span>&#128274; Elite</span><button class="download-btn locked">Unlock</button></div></div>
+
+  </div>
+</div>
+
+<!-- ELITE: YOUR BUSINESS RUNS WHILE YOU SLEEP -->
+<div class="skill-row" data-row-tier="elite">
+  <div class="row-header">
+    <span class="row-title">Your Business Runs While You Sleep</span>
+    <span class="row-count">7 skills - Elite</span>
+  </div>
+  <div class="row-scroll">
+
+    <div class="skill-card" data-tier="elite"><div class="card-content"><div class="card-top"><span class="card-badge elite">Elite</span><span class="card-category">System</span></div><div class="card-title">Everything Running on Autopilot</div><div class="card-desc">We build your entire system - every email, every follow-up, every reminder, every report - all running while you focus on what you love: your clients.</div></div><div class="card-video elite"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Full system walkthrough</strong>5 min</div></div><div class="card-footer elite"><span>&#128274; Elite</span><button class="download-btn locked">Unlock</button></div></div>
+
+    <div class="skill-card" data-tier="elite"><div class="card-content"><div class="card-top"><span class="card-badge elite">Elite</span><span class="card-category">System</span></div><div class="card-title">Live in Seven Days</div><div class="card-desc">From start to fully operational in one week. We build it, test everything end-to-end, and hand you the keys. You don't touch anything until it works perfectly.</div></div><div class="card-video elite"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: 7-day deployment timeline</strong>2 min</div></div><div class="card-footer elite"><span>&#128274; Elite</span><button class="download-btn locked">Unlock</button></div></div>
+
+    <div class="skill-card" data-tier="elite"><div class="card-content"><div class="card-top"><span class="card-badge elite">Elite</span><span class="card-category">Daily</span></div><div class="card-title">Your Morning, Sorted</div><div class="card-desc">Wake up to a message: here's who you're seeing today, here's who needs a follow-up, here's what's overdue. Before you've had your coffee.</div></div><div class="card-video elite"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Morning briefing demo</strong>2 min</div></div><div class="card-footer elite"><span>&#128274; Elite</span><button class="download-btn locked">Unlock</button></div></div>
+
+    <div class="skill-card" data-tier="elite"><div class="card-content"><div class="card-top"><span class="card-badge elite">Elite</span><span class="card-category">Daily</span></div><div class="card-title">"What Should I Do Right Now?"</div><div class="card-desc">Ask and get a real answer. Not a to-do list - a priority based on your actual calendar, clients, and deadlines. Like having a manager who knows everything.</div></div><div class="card-video elite"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Manager agent in action</strong>2 min</div></div><div class="card-footer elite"><span>&#128274; Elite</span><button class="download-btn locked">Unlock</button></div></div>
+
+    <div class="skill-card" data-tier="elite"><div class="card-content"><div class="card-top"><span class="card-badge elite">Elite</span><span class="card-category">Weekly</span></div><div class="card-title">Your Week, Summarised</div><div class="card-desc">Every Friday: what happened, what's working, what needs your attention next week. Revenue, clients, content, follow-ups - one report instead of ten tabs.</div></div><div class="card-video elite"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Weekly review demo</strong>2 min</div></div><div class="card-footer elite"><span>&#128274; Elite</span><button class="download-btn locked">Unlock</button></div></div>
+
+    <div class="skill-card" data-tier="elite"><div class="card-content"><div class="card-top"><span class="card-badge elite">Elite</span><span class="card-category">System</span></div><div class="card-title">Catches Problems Before You Notice</div><div class="card-desc">If something breaks at 2am, the system catches it before your first client walks in. Monitoring runs 24/7. You focus on clients, not tech.</div></div><div class="card-video elite"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Health monitoring explained</strong>2 min</div></div><div class="card-footer elite"><span>&#128274; Elite</span><button class="download-btn locked">Unlock</button></div></div>
+
+    <div class="skill-card" data-tier="elite"><div class="card-content"><div class="card-top"><span class="card-badge elite">Elite</span><span class="card-category">System</span></div><div class="card-title">Fixes Itself While You Sleep</div><div class="card-desc">Most problems resolve automatically. Connection dropped? Reconnected. Server hiccup? Restarted. You might never know there was a problem.</div></div><div class="card-video elite"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Self-healing systems demo</strong>2 min</div></div><div class="card-footer elite"><span>&#128274; Elite</span><button class="download-btn locked">Unlock</button></div></div>
+
+  </div>
+</div>
+
+<!-- ELITE: LOOK LIKE YOU HIRED A FULL TEAM -->
+<div class="skill-row" data-row-tier="elite">
+  <div class="row-header">
+    <span class="row-title">Look Like You Hired a Full Team</span>
+    <span class="row-count">9 skills - Elite</span>
+  </div>
+  <div class="row-scroll">
+
+    <div class="skill-card" data-tier="elite"><div class="card-content"><div class="card-top"><span class="card-badge elite">Elite</span><span class="card-category">Brand</span></div><div class="card-title">Your Complete Brand, From Scratch</div><div class="card-desc">Colours, fonts, voice, logo concepts, social bios - the whole identity. Not a DIY logo maker. A proper brand that makes people take you seriously.</div></div><div class="card-video elite"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Brand identity creation</strong>3 min</div></div><div class="card-footer elite"><span>&#128274; Elite</span><button class="download-btn locked">Unlock</button></div></div>
+
+    <div class="skill-card" data-tier="elite"><div class="card-content"><div class="card-top"><span class="card-badge elite">Elite</span><span class="card-category">Website</span></div><div class="card-title">A Website That's Actually Yours</div><div class="card-desc">Not a template with your name swapped in. A custom website built from your brand, your copy, your personality. Deployed, live, and beautiful.</div></div><div class="card-video elite"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Website build timelapse</strong>3 min</div></div><div class="card-footer elite"><span>&#128274; Elite</span><button class="download-btn locked">Unlock</button></div></div>
+
+    <div class="skill-card" data-tier="elite"><div class="card-content"><div class="card-top"><span class="card-badge elite">Elite</span><span class="card-category">Templates</span></div><div class="card-title">30 Templates You'll Actually Use</div><div class="card-desc">Social posts, stories, email headers, business cards, covers - 30 branded templates ready to fill in. Never start from a blank canvas again.</div></div><div class="card-video elite"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Template library tour</strong>2 min</div></div><div class="card-footer elite"><span>&#128274; Elite</span><button class="download-btn locked">Unlock</button></div></div>
+
+    <div class="skill-card" data-tier="elite"><div class="card-content"><div class="card-top"><span class="card-badge elite">Elite</span><span class="card-category">Design</span></div><div class="card-title">Graphics That Make People Ask Who Your Designer Is</div><div class="card-desc">Branded social graphics at perfect dimensions for every platform. Instagram squares, stories, LinkedIn banners - all in your brand, generated in seconds.</div></div><div class="card-video elite"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Creative assets demo</strong>2 min</div></div><div class="card-footer elite"><span>&#128274; Elite</span><button class="download-btn locked">Unlock</button></div></div>
+
+    <div class="skill-card" data-tier="elite"><div class="card-content"><div class="card-top"><span class="card-badge elite">Elite</span><span class="card-category">Design</span></div><div class="card-title">Art, Not Stock Photos</div><div class="card-desc">Original art and premium textures generated for your brand. Not Canva. Not stock. Art that makes your content feel expensive because it looks expensive.</div></div><div class="card-video elite"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Canvas design process</strong>3 min</div></div><div class="card-footer elite"><span>&#128274; Elite</span><button class="download-btn locked">Unlock</button></div></div>
+
+    <div class="skill-card" data-tier="elite"><div class="card-content"><div class="card-top"><span class="card-badge elite">Elite</span><span class="card-category">Website</span></div><div class="card-title">Turn a Video Into a Cinematic Website</div><div class="card-desc">Hand us a video. Get back a scroll-driven animated website with parallax, smooth transitions, and polish that makes people lean forward.</div></div><div class="card-video elite"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Video website showcase</strong>3 min</div></div><div class="card-footer elite"><span>&#128274; Elite</span><button class="download-btn locked">Unlock</button></div></div>
+
+    <div class="skill-card" data-tier="elite"><div class="card-content"><div class="card-top"><span class="card-badge elite">Elite</span><span class="card-category">Web</span></div><div class="card-title">Your Own Links Page</div><div class="card-desc">Not Linktree. Yours. Your design, your brand, your domain. One beautiful page with every link your clients need.</div></div><div class="card-video elite"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Link page demo</strong>1 min</div></div><div class="card-footer elite"><span>&#128274; Elite</span><button class="download-btn locked">Unlock</button></div></div>
+
+    <div class="skill-card" data-tier="elite"><div class="card-content"><div class="card-top"><span class="card-badge elite">Elite</span><span class="card-category">Content</span></div><div class="card-title">Carousels People Actually Save</div><div class="card-desc">Educational carousels with original textures and professional compositing. The kind that get saved, shared, and make people follow you for more.</div></div><div class="card-video elite"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Premium carousel demo</strong>2 min</div></div><div class="card-footer elite"><span>&#128274; Elite</span><button class="download-btn locked">Unlock</button></div></div>
+
+    <div class="skill-card" data-tier="elite"><div class="card-content"><div class="card-top"><span class="card-badge elite">Elite</span><span class="card-category">Documents</span></div><div class="card-title">Print-Ready Documents That Impress</div><div class="card-desc">Service agreements, workbooks, and proposals that look like a design agency made them. Premium paper textures, professional typography. E-sign ready.</div></div><div class="card-video elite"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Document showcase</strong>2 min</div></div><div class="card-footer elite"><span>&#128274; Elite</span><button class="download-btn locked">Unlock</button></div></div>
+
+  </div>
+</div>
+
+<!-- ELITE: THE CONTENT MACHINE -->
+<div class="skill-row" data-row-tier="elite">
+  <div class="row-header">
+    <span class="row-title">The Content Machine</span>
+    <span class="row-count">10 skills - Elite</span>
+  </div>
+  <div class="row-scroll">
+
+    <div class="skill-card" data-tier="elite"><div class="card-content"><div class="card-top"><span class="card-badge elite">Elite</span><span class="card-category">Video</span></div><div class="card-title">Find the Best Moment in Any Video</div><div class="card-desc">Got an hour of footage? We find the single best 2-minute clip - the one that'll actually get views. No more scrubbing through timelines.</div></div><div class="card-video elite"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Clip finder in action</strong>2 min</div></div><div class="card-footer elite"><span>&#128274; Elite</span><button class="download-btn locked">Unlock</button></div></div>
+
+    <div class="skill-card" data-tier="elite"><div class="card-content"><div class="card-top"><span class="card-badge elite">Elite</span><span class="card-category">Video</span></div><div class="card-title">Raw Footage to Finished Video</div><div class="card-desc">Footage goes in. Stabilised, captioned, b-rolled, branded video comes out. Multi-platform. Ready to post. No editing skills needed.</div></div><div class="card-video elite"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Video editing pipeline</strong>3 min</div></div><div class="card-footer elite"><span>&#128274; Elite</span><button class="download-btn locked">Unlock</button></div></div>
+
+    <div class="skill-card" data-tier="elite"><div class="card-content"><div class="card-top"><span class="card-badge elite">Elite</span><span class="card-category">Video</span></div><div class="card-title">Your Highlight Reel, Ready to Post</div><div class="card-desc">Multiple clips stitched into a polished promo reel. Smooth transitions, text overlays, branded endcard. Before-and-afters, event highlights, hype reels.</div></div><div class="card-video elite"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Promo reel showcase</strong>2 min</div></div><div class="card-footer elite"><span>&#128274; Elite</span><button class="download-btn locked">Unlock</button></div></div>
+
+    <div class="skill-card" data-tier="elite"><div class="card-content"><div class="card-top"><span class="card-badge elite">Elite</span><span class="card-category">Video</span></div><div class="card-title">Combine Clips in One Command</div><div class="card-desc">Pick your favourite clips. They get stitched together with smooth crossfades into a reel. Done in minutes, not hours in a video editor.</div></div><div class="card-video elite"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Clip stitching demo</strong>2 min</div></div><div class="card-footer elite"><span>&#128274; Elite</span><button class="download-btn locked">Unlock</button></div></div>
+
+    <div class="skill-card" data-tier="elite"><div class="card-content"><div class="card-top"><span class="card-badge elite">Elite</span><span class="card-category">Audio</span></div><div class="card-title">Any Recording, Transcribed</div><div class="card-desc">Consultations, meetings, voice notes - any recording turned into clean, searchable text with timestamps. Reference anything anyone ever said.</div></div><div class="card-video elite"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Transcription demo</strong>2 min</div></div><div class="card-footer elite"><span>&#128274; Elite</span><button class="download-btn locked">Unlock</button></div></div>
+
+    <div class="skill-card" data-tier="elite"><div class="card-content"><div class="card-top"><span class="card-badge elite">Elite</span><span class="card-category">Content</span></div><div class="card-title">Thumbnails That Get Clicked</div><div class="card-desc">Scroll-stopping thumbnails branded and sized for every platform. YouTube, Instagram, TikTok, LinkedIn - designed to get clicks.</div></div><div class="card-video elite"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Thumbnail generator demo</strong>2 min</div></div><div class="card-footer elite"><span>&#128274; Elite</span><button class="download-btn locked">Unlock</button></div></div>
+
+    <div class="skill-card" data-tier="elite"><div class="card-content"><div class="card-top"><span class="card-badge elite">Elite</span><span class="card-category">Content</span></div><div class="card-title">One Command: Raw to Posted</div><div class="card-desc">Drop in raw video. Out comes a finished post - clipped, edited, captioned, thumbnailed, and queued. The entire chain, one command.</div></div><div class="card-video elite"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Content factory demo</strong>3 min</div></div><div class="card-footer elite"><span>&#128274; Elite</span><button class="download-btn locked">Unlock</button></div></div>
+
+    <div class="skill-card" data-tier="elite"><div class="card-content"><div class="card-top"><span class="card-badge elite">Elite</span><span class="card-category">Knowledge</span></div><div class="card-title">Your Expertise, Packaged</div><div class="card-desc">Turn what you know into podcasts, study guides, and summaries. Your training recordings become searchable, shareable knowledge libraries.</div></div><div class="card-video elite"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Knowledge packaging demo</strong>2 min</div></div><div class="card-footer elite"><span>&#128274; Elite</span><button class="download-btn locked">Unlock</button></div></div>
+
+    <div class="skill-card" data-tier="elite"><div class="card-content"><div class="card-top"><span class="card-badge elite">Elite</span><span class="card-category">Research</span></div><div class="card-title">Transcripts From Any Social Video</div><div class="card-desc">Pull the transcript from any YouTube, TikTok, or Instagram video. Research what competitors and thought leaders are saying without watching hours of content.</div></div><div class="card-video elite"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Transcript pulling demo</strong>1 min</div></div><div class="card-footer elite"><span>&#128274; Elite</span><button class="download-btn locked">Unlock</button></div></div>
+
+    <div class="skill-card" data-tier="elite"><div class="card-content"><div class="card-top"><span class="card-badge elite">Elite</span><span class="card-category">Custom</span></div><div class="card-title">Build Skills Nobody Else Has</div><div class="card-desc">Got a process unique to your clinic? We turn it into an AI skill. Your workflow, automated. Your way. Nobody else has this because it's built for you.</div></div><div class="card-video elite"><div class="video-play">&#9654;</div><div class="video-label"><strong>Watch: Custom skill building</strong>3 min</div></div><div class="card-footer elite"><span>&#128274; Elite</span><button class="download-btn locked">Unlock</button></div></div>
+
+  </div>
+</div>
+
+<!-- PRICING -->
+<div class="pricing-section">
+  <div class="pricing-header">
+    <div class="hero-eyebrow" style="color: var(--rose);">Choose Your Level</div>
+    <h2>Start Free. Upgrade When You Feel It.</h2>
+    <p>No lock-ins. No trials that expire. No pressure. Just results.</p>
+  </div>
+
+  <div class="pricing-grid">
+    <div class="price-card">
+      <span class="card-badge free">Free</span>
+      <h3>Welcome</h3>
+      <div class="price-amount sage">$0</div>
+      <p class="price-note">No card. No trial. Yours forever.</p>
+      <p class="price-desc">16 skills that set up your brand, handle your emails, manage your calendar, create content, and audit your website. Others charge $5K+ for this.</p>
+      <ul class="price-list">
+        <li><span class="dot sage-dot"></span>Guided setup + account connections</li>
+        <li><span class="dot sage-dot"></span>Brand voice captured</li>
+        <li><span class="dot sage-dot"></span>Email + calendar agents</li>
+        <li><span class="dot sage-dot"></span>Canva carousel builder</li>
+        <li><span class="dot sage-dot"></span>Full SEO + AI search audit</li>
+        <li><span class="dot sage-dot"></span>Proposal + email writing</li>
+        <li><span class="dot sage-dot"></span>Hook generator + content tools</li>
+        <li><span class="dot sage-dot"></span>Video walkthroughs for every skill</li>
+        <li><span class="dot sage-dot"></span>Skill files + install guides</li>
+      </ul>
+      <a href="#" class="price-cta sage-btn">Start Free</a>
+    </div>
+
+    <div class="price-card featured">
+      <span class="card-badge pro">Pro</span>
+      <h3>Growth</h3>
+      <div class="price-amount rose">$5,000</div>
+      <p class="price-note">One-time. Includes onboarding. Yours forever.</p>
+      <p class="price-desc">15 more skills that grow your business on autopilot. Lead nurturing, competitor intelligence, content multiplication, and your business dashboard.</p>
+      <ul class="price-list">
+        <li><span class="dot rose-dot"></span>Everything in Free</li>
+        <li><span class="dot rose-dot"></span>Nurture email sequences</li>
+        <li><span class="dot rose-dot"></span>Content repurposer + voice-to-content</li>
+        <li><span class="dot rose-dot"></span>Lead + competitor intelligence</li>
+        <li><span class="dot rose-dot"></span>Resonance messaging framework</li>
+        <li><span class="dot rose-dot"></span>Landing page builder</li>
+        <li><span class="dot rose-dot"></span>Command centre dashboard</li>
+        <li><span class="dot rose-dot"></span>Contract generator</li>
+        <li><span class="dot rose-dot"></span>Guided onboarding call with Kelly</li>
+        <li><span class="dot rose-dot"></span>Community access</li>
+      </ul>
+      <a href="#" class="price-cta rose-btn">Unlock Pro</a>
+    </div>
+
+    <div class="price-card">
+      <span class="card-badge elite">Elite</span>
+      <h3>The Full System</h3>
+      <div class="price-amount rust">$10,000</div>
+      <p class="price-note">One-time build. Optional $1.5K/mo for ongoing management.</p>
+      <p class="price-desc">We build the whole thing for you. AI receptionist, video pipeline, branded website, autonomous agents, 24/7 monitoring. Your clinic on autopilot.</p>
+      <ul class="price-list">
+        <li><span class="dot rust-dot"></span>Everything in Pro</li>
+        <li><span class="dot rust-dot"></span>Aria AI phone receptionist (24/7)</li>
+        <li><span class="dot rust-dot"></span>Full system built + deployed in 7 days</li>
+        <li><span class="dot rust-dot"></span>Video editing + content machine</li>
+        <li><span class="dot rust-dot"></span>Brand identity + custom website</li>
+        <li><span class="dot rust-dot"></span>30 branded templates</li>
+        <li><span class="dot rust-dot"></span>Morning briefing + weekly review agents</li>
+        <li><span class="dot rust-dot"></span>24/7 monitoring + self-healing</li>
+        <li><span class="dot rust-dot"></span>Custom skills built for your workflow</li>
+        <li><span class="dot rust-dot"></span>Weekly group coaching with Kelly</li>
+      </ul>
+      <a href="#" class="price-cta rust-btn">Apply for Elite</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p class="brand">AI with Soul</p>
+  <p>Built by Kelly Wotherspoon. The world's first AI Operating System for clinics.</p>
+</div>
+
+<script>
+document.querySelectorAll('.tier-pill').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const filter = btn.dataset.filter;
+    document.querySelectorAll('.tier-pill').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.skill-row').forEach(row => {
+      if (filter === 'all') { row.style.display = ''; }
+      else if (row.dataset.rowTier === filter) { row.style.display = ''; }
+      else { row.style.display = 'none'; }
+    });
+    document.querySelectorAll('.section-divider').forEach(d => {
+      d.style.display = filter === 'all' ? '' : 'none';
+    });
+  });
+});
+</script>
+
+</body>
+</html>
