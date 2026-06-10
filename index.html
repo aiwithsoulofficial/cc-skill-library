@@ -1515,7 +1515,8 @@ document.querySelectorAll('.tier-pill').forEach(btn => {
 
 // WAITLIST FORM SUBMISSION
 // Source of truth: Supabase library_waitlist table (project: Kelly Mentorship)
-// Email notification: FormSubmit.co -> aiwithsoulofficial@gmail.com
+// Email notification: FormSubmit.co token -> aiwithsoulofficial@gmail.com
+// (token is anti-scrape - bots can't see the email in page source)
 // GHL sync: runs as separate scheduled job reading new Supabase rows
 const SUPABASE_URL = 'https://jiquevvzrdavgqonvvug.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_siNrWACQh9utYNJ_g6Mt3Q_vWuxhkaJ';
@@ -1564,7 +1565,7 @@ document.getElementById('waitlistForm').addEventListener('submit', async functio
         },
         body: JSON.stringify(supabasePayload)
       }),
-      fetch('https://formsubmit.co/ajax/aiwithsoulofficial@gmail.com', {
+      fetch('https://formsubmit.co/ajax/b89eb683438143b4e68df807a57caf6c', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify(emailPayload)
