@@ -589,6 +589,32 @@ body::before {
 
 .phone-input { flex: 1; min-width: 0; }
 
+.business-select {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.92rem;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--linen);
+  color: var(--charcoal);
+  outline: none;
+  cursor: pointer;
+  width: 100%;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238A8078'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+}
+.business-select:focus {
+  border-color: var(--rose);
+  box-shadow: 0 0 0 3px rgba(196,149,106,0.12);
+  background-color: var(--card-white);
+}
+.business-select:invalid { color: var(--charcoal-muted); font-weight: 300; }
+
 .waitlist-submit {
   font-family: 'Inter', sans-serif;
   font-size: 0.88rem;
@@ -904,6 +930,21 @@ body::before {
           </select>
           <input type="tel" name="phone" placeholder="Phone number" class="phone-input">
         </div>
+        <select name="business_type" class="business-select" required>
+          <option value="" disabled selected>What kind of business?</option>
+          <option value="Clinic / aesthetics">Clinic / aesthetics</option>
+          <option value="Wellness / health practitioner">Wellness / health practitioner</option>
+          <option value="Coaching / mentorship">Coaching / mentorship</option>
+          <option value="Consulting">Consulting</option>
+          <option value="Customer service / support">Customer service / support</option>
+          <option value="E-commerce / retail">E-commerce / retail</option>
+          <option value="NDIS / disability services">NDIS / disability services</option>
+          <option value="Course creator / educator">Course creator / educator</option>
+          <option value="Content creator">Content creator</option>
+          <option value="Real estate">Real estate</option>
+          <option value="Professional services (law, accounting, etc)">Professional services (law, accounting, etc)</option>
+          <option value="Other">Other</option>
+        </select>
         <input type="hidden" name="interested_tier" id="interestedTier" value="General">
         <input type="hidden" name="_subject" value="Skill Library Waitlist - New Signup">
         <input type="hidden" name="_template" value="table">
@@ -1491,8 +1532,9 @@ document.getElementById('waitlistForm').addEventListener('submit', async functio
     name: formData.name,
     email: formData.email,
     phone: phone,
+    business_type: formData.business_type || 'Not specified',
     interested_tier: tier,
-    _subject: 'Skill Library Waitlist - ' + tier + ' - ' + formData.name,
+    _subject: 'Skill Library Waitlist - ' + (formData.business_type || tier) + ' - ' + formData.name,
     _template: formData._template,
     _captcha: formData._captcha
   };
@@ -1501,6 +1543,7 @@ document.getElementById('waitlistForm').addEventListener('submit', async functio
     name: formData.name,
     email: formData.email,
     interested_tier: tier,
+    business_type: formData.business_type || null,
     source: 'library.aiwithsoul.com.au',
     user_agent: navigator.userAgent
   };
